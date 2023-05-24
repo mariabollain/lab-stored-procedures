@@ -3,6 +3,8 @@ use sakila;
 # 1. In the previous lab we wrote a query to find first name, last name, and emails of all the customers who rented Action movies.
 # Convert the query into a simple stored procedure.
  
+drop procedure if exists customers_action;
+
 DELIMITER //
 create procedure customers_action()
 begin
@@ -18,14 +20,14 @@ group by first_name, last_name, email;
 end //
 DELIMITER ;
 
-drop procedure if exists customers_action;
-
 CALL customers_action;
 
 
 # 2. Now keep working on the previous stored procedure to make it more dynamic. 
 # Update the stored procedure in a such manner that it can take a string argument for the category name and return the results for all customers that rented movie of that category/genre. 
 # For eg., it could be action, animation, children, classics, etc.
+
+drop procedure if exists customers_category;
 
 DELIMITER //
 create procedure customers_category(in category char(20))
@@ -52,6 +54,8 @@ SELECT category_id, COUNT(film_id) AS number_films
 FROM film_category
 GROUP BY category_id;
 
+drop procedure if exists count_films_category;
+
 DELIMITER //
 create procedure count_films_category(in filter_number int)
 begin
@@ -64,4 +68,3 @@ DELIMITER ;
 
 CALL count_films_category(70);
 
-drop procedure if exists count_films_category;
